@@ -1,0 +1,9 @@
+{
+  "files.exclude": {
+    "**/node_modules": true
+  },
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.patterns": {
+    "package.json": "eslint.config.mjs, package-lock.json, pnpm-lock.yaml, pnpm-workspace.yaml, .prettierignore, .prettierrc.json, tsconfig.json, vite.config.*, vitest.config.*, tsup.config.ts, .gitignore"
+  }
+}

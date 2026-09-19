@@ -1,0 +1,52 @@
+{
+  "name": "@zaunt/zest",
+  "version": "0.1.0",
+  "type": "module",
+  "license": "Apache-2.0",
+  "main": "./dist/index.mjs",
+  "types": "./dist/index.d.mts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.mts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zaunt/zest.git"
+  },
+  "bugs": {
+    "url": "https://github.com/zaunt/zest/issues"
+  },
+  "homepage": "https://github.com/zaunt/zest",
+  "scripts": {
+    "build": "tsdown --minify --dts",
+    "build:watch": "tsdown --watch",
+    "format": "prettier \"**/*.{mjs,html,js,json,ts}\" --write --list-different",
+    "test": "vitest run",
+    "lint": "eslint \"src/**/*.ts\"",
+    "prepublishOnly": "pnpm run test && pnpm run build"
+  },
+  "devDependencies": {
+    "@types/markdown-it": "^14.2.0",
+    "@types/node": "^25.9.8",
+    "@typescript-eslint/eslint-plugin": "^8.70.0",
+    "@typescript-eslint/parser": "^8.70.0",
+    "eslint": "^10.11.0",
+    "prettier": "^3.9.8",
+    "prettier-plugin-curly": "^0.4.1",
+    "tsdown": "^0.23.0",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.70.0"
+  },
+  "dependencies": {
+    "markdown-it": "^14.3.2",
+    "vitest": "^4.1.11"
+  }
+}
