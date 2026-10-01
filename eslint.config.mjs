@@ -1,41 +1,31 @@
-import typeScriptParser from '@typescript-eslint/parser';
-import typescriptPlugin from '@typescript-eslint/eslint-plugin';
+// @ts-check
 
-const baseConfig = [
-  {
-    plugins: {
-      // @ts-ignore the plugin's type signature doesn't match but works anyway
-      '@typescript-eslint': typescriptPlugin
-    }
-  },
+import js from '@eslint/js';
+import {defineConfig} from 'eslint/config';
+import tseslint from 'typescript-eslint';
+
+export default defineConfig(
   {
     ignores: ['**/dist/**', '**/node_modules/**']
   },
   {
     files: ['**/*.ts'],
+    extends: [
+      js.configs.recommended,
+      tseslint.configs.recommendedTypeChecked,
+      tseslint.configs.strict
+    ],
     languageOptions: {
-      parser: typeScriptParser,
       parserOptions: {
-        sourceType: 'module',
-        ecmaVersion: 'latest',
         projectService: true
       }
     },
     rules: {
-      ...typescriptPlugin.configs['eslint-recommended'].rules,
-      ...typescriptPlugin.configs['recommended'].rules,
-      ...typescriptPlugin.configs['recommended-requiring-type-checking'].rules,
-      ...typescriptPlugin.configs['strict'].rules,
-
-      /*
-       * Always require === instead of ==.
-       */
+      // Always require === instead of ==.
       eqeqeq: ['warn', 'always', {null: 'never'}],
 
-      /*
-       * Only allow TypeScript comment annotations if they include a description
-       * (i.e. an explanation about why the annotation is there).
-       */
+      // Only allow TypeScript comment annotations if they include a description
+      // (i.e. an explanation about why the annotation is there).
       '@typescript-eslint/ban-ts-comment': [
         'error',
         {
@@ -44,15 +34,11 @@ const baseConfig = [
         }
       ],
 
-      /*
-       * Require semicolons.
-       */
+      // Require semicolons.
       semi: 'error',
 
-      /*
-       * Allow explicit 'any' type.
-       * Sometimes it's not worth the hassle to express the types.
-       */
+      // Allow explicit 'any' type.
+      // Sometimes it's not worth the hassle to express the types.
       '@typescript-eslint/no-explicit-any': 'off',
 
       // Don't warn about using the ! operator
@@ -61,9 +47,7 @@ const baseConfig = [
       // Allow type namespaces
       '@typescript-eslint/no-namespace': 'off',
 
-      /*
-       * Only allow variables to be unused when they start with underscore.
-       */
+      // Only allow variables to be unused when they start with underscore.
       'no-unused-vars': 'off',
       '@typescript-eslint/no-unused-vars': [
         'warn',
@@ -76,19 +60,9 @@ const baseConfig = [
     }
   },
   {
-    // For test sources
-    files: ['test/**'],
+    files: ['test/**/*.ts'],
     rules: {
-      // Don't warn about using the ! operator
-      '@typescript-eslint/no-non-null-assertion': 'off',
-
-      // Don't warn if an async function doesn't have await
       '@typescript-eslint/require-await': 'off'
     }
   }
-];
-
-/**
- * @return {import('eslint-define-config').FlatESLintConfig[]}
- */
-export default baseConfig;
+);

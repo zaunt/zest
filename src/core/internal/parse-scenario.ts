@@ -1,5 +1,5 @@
 import MarkdownIt from 'markdown-it';
-import type Token from 'markdown-it/lib/token.mjs';
+import type {Token} from 'markdown-it';
 import {Fact} from '../fact';
 import type {FactMetadata} from '../fact';
 import {Table} from '../table';

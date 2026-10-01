@@ -1,5 +1,4 @@
-import MarkdownIt, {type Options} from 'markdown-it';
-import type Token from 'markdown-it/lib/token.mjs';
+import MarkdownIt, {type RendererRule, type Token} from 'markdown-it';
 import {FactState} from '../core/fact-state';
 import type {Fact} from '../core/fact';
 import type {Table} from '../core/table';
@@ -204,21 +203,21 @@ const renderHtml = (
   let tableIndex = 0;
   let insideReplacedTable = false;
 
-  md.renderer.rules.text = (toks, idx): string => {
+  md.renderer.rules['text'] = (toks, idx): string => {
     if (insideReplacedTable || suppressed.has(toks[idx])) {
       return '';
     }
     return escapeHtml(toks[idx].content);
   };
 
-  md.renderer.rules.softbreak = (toks, idx): string => {
+  md.renderer.rules['softbreak'] = (toks, idx): string => {
     if (insideReplacedTable || suppressed.has(toks[idx])) {
       return '';
     }
     return '\n';
   };
 
-  md.renderer.rules.code_inline = (toks, idx): string => {
+  md.renderer.rules['code_inline'] = (toks, idx): string => {
     if (insideReplacedTable) {
       return '';
     }
@@ -271,7 +270,7 @@ const renderHtml = (
     return '</strong>';
   };
 
-  md.renderer.rules.fence = (toks, idx): string => {
+  md.renderer.rules['fence'] = (toks, idx): string => {
     const token = toks[idx];
     const fact: Fact | undefined =
       hasFactMeta(token.meta) ? (token.meta.fact as Fact) : undefined;
@@ -285,7 +284,7 @@ const renderHtml = (
     return `<pre><code${langClass}>${escapeHtml(token.content)}</code></pre>\n`;
   };
 
-  md.renderer.rules.code_block = (toks, idx): string => {
+  md.renderer.rules['code_block'] = (toks, idx): string => {
     const token = toks[idx];
     const fact: Fact | undefined =
       hasFactMeta(token.meta) ? (token.meta.fact as Fact) : undefined;
@@ -314,12 +313,12 @@ const renderHtml = (
     return '</table>';
   };
 
-  const suppressIfReplaced = (
-    toks: Token[],
-    idx: number,
-    opts: Options,
-    _env: unknown,
-    slf: {renderToken(tokens: Token[], idx: number, options: Options): string}
+  const suppressIfReplaced: RendererRule = (
+    toks,
+    idx,
+    opts,
+    _env,
+    slf
   ): string => (insideReplacedTable ? '' : slf.renderToken(toks, idx, opts));
 
   md.renderer.rules['thead_open'] = suppressIfReplaced;

@@ -1,6 +1,6 @@
 {
   "name": "@zaunt/zest",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "type": "module",
   "license": "Apache-2.0",
   "main": "./dist/index.mjs",
@@ -28,23 +28,22 @@
   "scripts": {
     "build": "tsdown --minify --dts",
     "build:watch": "tsdown --watch",
+    "dist": "pnpm format && pnpm lint && pnpm test && pnpm build",
     "format": "prettier \"**/*.{mjs,html,js,json,ts}\" --write --list-different",
     "test": "vitest run",
     "lint": "eslint \"src/**/*.ts\"",
     "prepublishOnly": "pnpm run test && pnpm run build"
   },
   "devDependencies": {
-    "@types/markdown-it": "^14.2.0",
-    "@types/node": "^26.6.2",
-    "@typescript-eslint/eslint-plugin": "^8.70.0",
-    "@typescript-eslint/parser": "^8.70.0",
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^26.6.3",
     "eslint": "^10.11.0",
-    "prettier": "^3.9.8",
+    "prettier": "^3.9.9",
     "prettier-plugin-curly": "^0.4.1",
     "tsdown": "^0.23.0",
     "typescript": "^6.0.3",
-    "typescript-eslint": "^8.70.0",
-    "vitest": "^5.0.1"
+    "typescript-eslint": "^8.71.0",
+    "vitest": "^5.0.2"
   },
   "dependencies": {
     "markdown-it": "^15.0.2"
